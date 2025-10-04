@@ -62,12 +62,18 @@ public class CartServlet extends HttpServlet {
             }
             
             session.setAttribute("cart", cart);
-            url = "/cart.jsp";
+            response.sendRedirect(request.getContextPath() + "/cart?action=cartview");
+            return;
+            
         } else if (action.equals("checkout")) {
             url = "/checkout.jsp";
         }
-
-        sc.getRequestDispatcher(url).forward(request, response);
+        else if("cartview".equals(action)) {
+        	url = "/cart.jsp";
+        }
+        if (!response.isCommitted()) {
+            sc.getRequestDispatcher(url).forward(request, response);
+        }
     }
 
     @Override
